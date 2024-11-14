@@ -13,10 +13,13 @@ public class BookServiceImpl implements BookService {
 	@Autowired
 	private BookRepository bookRepository;
 	
+	public void test() {
+		System.out.println("Service-test");
+	}
+	
 	@Override
 	public ArrayList<Book> getAllBookList() {
 		System.out.println("getAllBookList()호출 BookRepository의 getAllBookList()호출 후 리턴 값 리턴");
 		return bookRepository.getAllBookList();
 	}
-
 }
