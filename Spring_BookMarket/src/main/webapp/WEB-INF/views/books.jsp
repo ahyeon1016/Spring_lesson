@@ -1,15 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page session="false" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
-	<!-- 정적 리소스는 절대경로 표시를 추천함 -->
+	<%
+		System.out.println("books.jsp 도착");
+	%>
 	<link href="./resources/css/bootstrap.min.css" rel="stylesheet">
 	<meta charset="UTF-8">
-<title>HOME</title>
+	<title>도서 목록</title>
 </head>
 <body>
-
 	<nav class="navbar navbar-expand navbar-dark bg-dark">
 		<div class="container">
 			<div class="navbar-header">
@@ -19,14 +21,26 @@
 	</nav>
 	<div class="hero bg-light py-5">
 		<div class="container">
-			<h1 class="display-3">${greeting}</h1>
+			<h1 class="display-3">도서 목록</h1>
 		</div>
 	</div>
+	
 	<div class="container">
-		<div class="text-center">
-			<h3>${strapline}</h3>
+		<div class="row" align="center">
+		
+			<c:forEach items="${bookList}" var="book">
+				<div class="col-md-4">
+					<h3>${book.name}</h3>
+					<p>${book.author}</p>
+						<br>${book.publisher} | ${book.releaseDate}
+					<p align=left>${fn:substring(book.description,0,100)}...
+					<p>${book.unitPrice}원
+				</div> 
+			</c:forEach>
+		
 		</div>
 	</div>
+	
 	<footer class="container">
 		<hr>
 		<p>&copy; WebMarket</p>
