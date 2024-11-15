@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,5 +39,13 @@ public class BookController {
 		mav.addObject("bookList", list);
 		mav.setViewName("books");
 		return mav;
+	}
+	
+	@GetMapping("/{category}")
+	public String requestBooksByCategory(@PathVariable("category") String bookCategory, Model model) {
+		System.out.println("PathVariable = "+bookCategory);
+		ArrayList<Book> booksByCategory = bookService.getBookListByCategory(bookCategory);
+		model.addAttribute("bookList", booksByCategory);
+		return "books";
 	}
 }

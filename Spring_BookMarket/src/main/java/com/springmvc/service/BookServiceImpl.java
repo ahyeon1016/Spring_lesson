@@ -22,4 +22,13 @@ public class BookServiceImpl implements BookService {
 		System.out.println("getAllBookList()호출 BookRepository의 getAllBookList()호출 후 리턴 값 리턴");
 		return bookRepository.getAllBookList();
 	}
+
+	@Override
+	public ArrayList<Book> getBookListByCategory(String category) {
+		System.out.println("getBookListByCategory()호출 BookRepository의 getBookListByCategory(category)호출 후 리턴 값 리턴");
+		ArrayList<Book> booksByCategory = bookRepository.getBookListByCategory(category);
+		return booksByCategory;
+	}
+	
+	
 }

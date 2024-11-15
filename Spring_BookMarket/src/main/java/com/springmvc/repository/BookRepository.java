@@ -6,4 +6,5 @@ import com.springmvc.domain.Book;
 
 public interface BookRepository {
 	ArrayList<Book> getAllBookList();
+	ArrayList<Book> getBookListByCategory(String category);	
 }
