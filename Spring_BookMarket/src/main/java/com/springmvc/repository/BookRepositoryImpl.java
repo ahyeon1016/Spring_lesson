@@ -1,6 +1,10 @@
 package com.springmvc.repository;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.springframework.stereotype.Repository;
 
@@ -43,13 +47,13 @@ public class BookRepositoryImpl implements BookRepository {
 	
 	@Override
 	public ArrayList<Book> getAllBookList() {
-		System.out.println("getAllBookList()호출 listOfBooks리턴");
+		System.out.println("리파지토리 | getAllBookList()호출 listOfBooks리턴");
 		return listOfBooks;
 	}
 
 	@Override
 	public ArrayList<Book> getBookListByCategory(String category) {
-		System.out.println("getBookListByCategory()호출 booksByCategory리턴");
+		System.out.println("리파지토리 | getBookListByCategory()호출 파라미터로 넘겨 받은 category의 값을 book의 category와 대소문자를 구분하지 않고 비교하여 일치하는 카테고리를 booksByCategory에 담아 리턴");
 		ArrayList<Book> booksByCategory = new ArrayList<Book>();
 		for(int i=0; i<listOfBooks.size(); i++) {
 			Book book = listOfBooks.get(i);
@@ -59,6 +63,54 @@ public class BookRepositoryImpl implements BookRepository {
 		}
 		return booksByCategory;
 	}
-	
+
+	@Override
+	public Set<Book> getBookListByFilter(Map<String, List<String>> filter) {
+		System.out.println("리파지토리 | getBookListByFilter() 호출");
+		Set<Book> booksByPublisher = new HashSet<Book>();
+		Set<Book> booksByCategory = new HashSet<Book>();
+		
+		Set<String> booksByFilter = filter.keySet();
+		System.out.println("filter publisher 사이즈 : "+filter.get("publisher").size());
+		if(booksByFilter.contains("publisher")) {
+			for(int i=0; i<filter.get("publisher").size(); i++) {
+				String publisherName = filter.get("publisher").get(i);
+				
+				System.out.println("listOfBooks 사이즈 ====="+listOfBooks.size());
+				for(int j=0; j<listOfBooks.size(); j++) {
+					Book book = listOfBooks.get(j);
+					
+					System.out.println("publisher 이름 : "+publisherName);
+					
+					if(publisherName.equalsIgnoreCase(book.getPublisher())) {
+						booksByPublisher.add(book);
+						System.out.println("book = "+book);
+					}
+					System.out.println("booksByPublisher.size() = "+booksByPublisher.size());
+				}
+			}
+		}
+		
+		if(booksByFilter.contains("category")) {
+			for(int i=0; i<filter.get("category").size(); i++) {
+				String category = filter.get("category").get(i);
+				
+				System.out.println("카테고리 이름 : "+category);
+				
+				List<Book> list = getBookListByCategory(category);
+				System.out.println("list : "+list.size());
+				
+				booksByCategory.addAll(list);
+				System.out.println("booksByCategory.size() = "+booksByCategory.size());
+			}
+		}
+		System.out.println("booksByCategory.size() = "+booksByCategory.size());
+		System.out.println("booksByPublisher.size() = "+booksByPublisher.size());
+		
+		booksByCategory.retainAll(booksByPublisher);
+		
+		System.out.println("booksByCategory.size() = "+booksByCategory.size());
+		return booksByCategory;
+	}
 	
 }

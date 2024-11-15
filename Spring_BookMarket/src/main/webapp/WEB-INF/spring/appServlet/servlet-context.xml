@@ -38,4 +38,6 @@
 		 3. com.springmvc.conroller.HomeController / 왜 만들어지는가? : @Controller
 	 -->
 	
+	<!-- 매트릭스 변수 허용 -->
+	<annotation-driven enable-matrix-variables="true"/>
 </beans:beans>

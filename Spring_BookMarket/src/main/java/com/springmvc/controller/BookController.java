@@ -1,11 +1,15 @@
 package com.springmvc.controller;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.MatrixVariable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,4 +52,18 @@ public class BookController {
 		model.addAttribute("bookList", booksByCategory);
 		return "books";
 	}
+	
+	@GetMapping("/filter/{bookFilter}")
+	public String requestBooksByFilter(@MatrixVariable(pathVar="bookFilter") Map<String, List<String>> bookFilter, Model model){ 
+		System.out.println("requestBooksByFilter 호출. 파라미터 : /filter/"+bookFilter);	
+		System.out.println("bookFilter.get('publisher') = "+bookFilter.get("publisher"));
+		
+		Set<Book> booksByFilter = bookService.getBookListByFilter(bookFilter);
+		
+		System.out.println("addAttribute 전 booksByFilter의 size = "+booksByFilter.size());
+		
+		model.addAttribute("bookList", booksByFilter);
+		return "books";
+	}
+			
 }
