@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.springmvc.domain.Book;
 import com.springmvc.service.BookService;
@@ -30,10 +31,12 @@ public class BookController {
 	}
 	
 	@GetMapping(value="/all")
-	public String requestAllBook(Model model) {
+	public ModelAndView requestAllBook(Model model) {
 		System.out.println("컨트롤러 BookController-requestAllBook() 호출");
+		ModelAndView mav = new ModelAndView();
 		ArrayList<Book> list = bookService.getAllBookList();
-		model.addAttribute("bookList", list);
-		return "books";
+		mav.addObject("bookList", list);
+		mav.setViewName("books");
+		return mav;
 	}
 }
