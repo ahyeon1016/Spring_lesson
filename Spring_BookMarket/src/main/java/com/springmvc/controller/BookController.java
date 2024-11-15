@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.springmvc.domain.Book;
@@ -29,7 +30,7 @@ public class BookController {
 	
 	@GetMapping
 	public String requestBookList(Model model) {
-		System.out.println("컨트롤러 BookController-requestBookList() 호출");
+		System.out.println("컨트롤러 | BookController-requestBookList() 호출");
 		ArrayList<Book> list = bookService.getAllBookList();
 		model.addAttribute("bookList", list);
 		return "books";
@@ -37,7 +38,7 @@ public class BookController {
 	
 	@GetMapping(value="/all")
 	public ModelAndView requestAllBook(Model model) {
-		System.out.println("컨트롤러 BookController-requestAllBook() 호출");
+		System.out.println("컨트롤러 | BookController-requestAllBook() 호출");
 		ModelAndView mav = new ModelAndView();
 		ArrayList<Book> list = bookService.getAllBookList();
 		mav.addObject("bookList", list);
@@ -47,23 +48,26 @@ public class BookController {
 	
 	@GetMapping("/{category}")
 	public String requestBooksByCategory(@PathVariable("category") String bookCategory, Model model) {
-		System.out.println("PathVariable = "+bookCategory);
+		System.out.println("컨트롤러 | PathVariable = "+bookCategory);
 		ArrayList<Book> booksByCategory = bookService.getBookListByCategory(bookCategory);
 		model.addAttribute("bookList", booksByCategory);
 		return "books";
 	}
 	
 	@GetMapping("/filter/{bookFilter}")
+	//                                                                          키 값이 두개이기 때문에 List를 사용하는 것 하나라면 String 사용해도 괜찮음.
 	public String requestBooksByFilter(@MatrixVariable(pathVar="bookFilter") Map<String, List<String>> bookFilter, Model model){ 
-		System.out.println("requestBooksByFilter 호출. 파라미터 : /filter/"+bookFilter);	
-		System.out.println("bookFilter.get('publisher') = "+bookFilter.get("publisher"));
-		
-		Set<Book> booksByFilter = bookService.getBookListByFilter(bookFilter);
-		
-		System.out.println("addAttribute 전 booksByFilter의 size = "+booksByFilter.size());
-		
+		System.out.println("컨트롤러 | requestBooksByFilter 호출. 파라미터 : /filter/"+bookFilter);	
+		Set<Book> booksByFilter = bookService.getBookListByFilter(bookFilter);		
 		model.addAttribute("bookList", booksByFilter);
 		return "books";
 	}
-			
+	
+	@GetMapping("/book")
+	public String requestBookById(@RequestParam("id") String bookId, Model model) {
+		System.out.println("컨트롤러 | requestBookById()호출 파라미터 bookId의 값 = "+bookId);
+		Book bookById = bookService.getBookById(bookId);
+		model.addAttribute("book", bookById);
+		return "book";
+	}
 }

@@ -71,46 +71,46 @@ public class BookRepositoryImpl implements BookRepository {
 		Set<Book> booksByCategory = new HashSet<Book>();
 		
 		Set<String> booksByFilter = filter.keySet();
-		System.out.println("filter publisher 사이즈 : "+filter.get("publisher").size());
+
 		if(booksByFilter.contains("publisher")) {
 			for(int i=0; i<filter.get("publisher").size(); i++) {
 				String publisherName = filter.get("publisher").get(i);
-				
-				System.out.println("listOfBooks 사이즈 ====="+listOfBooks.size());
 				for(int j=0; j<listOfBooks.size(); j++) {
-					Book book = listOfBooks.get(j);
-					
-					System.out.println("publisher 이름 : "+publisherName);
-					
+					Book book = listOfBooks.get(j);					
 					if(publisherName.equalsIgnoreCase(book.getPublisher())) {
 						booksByPublisher.add(book);
-						System.out.println("book = "+book);
 					}
-					System.out.println("booksByPublisher.size() = "+booksByPublisher.size());
 				}
 			}
 		}
 		
 		if(booksByFilter.contains("category")) {
 			for(int i=0; i<filter.get("category").size(); i++) {
-				String category = filter.get("category").get(i);
-				
-				System.out.println("카테고리 이름 : "+category);
-				
+				String category = filter.get("category").get(i);				
 				List<Book> list = getBookListByCategory(category);
-				System.out.println("list : "+list.size());
 				
 				booksByCategory.addAll(list);
-				System.out.println("booksByCategory.size() = "+booksByCategory.size());
 			}
 		}
-		System.out.println("booksByCategory.size() = "+booksByCategory.size());
-		System.out.println("booksByPublisher.size() = "+booksByPublisher.size());
 		
 		booksByCategory.retainAll(booksByPublisher);
-		
-		System.out.println("booksByCategory.size() = "+booksByCategory.size());
 		return booksByCategory;
 	}
-	
+
+	@Override
+	public Book getBookById(String bookId) {
+		System.out.println("리파지토리 | getBookById()함수 호출 bookId와 일치하는 Book 리턴");
+		Book bookInfo = null;
+		for(int i=0; i<listOfBooks.size();i++) {
+			Book book = listOfBooks.get(i);
+			if(book != null && book.getBookId() != null && book.getBookId().equals(bookId)) {
+				bookInfo = book;
+				break;
+			}
+		}
+		if(bookInfo == null) {
+			throw new IllegalArgumentException("도서 ID가"+bookId+"인 해당 도서를 찾을 수 없습니다.");
+		}
+		return bookInfo;
+	}
 }
