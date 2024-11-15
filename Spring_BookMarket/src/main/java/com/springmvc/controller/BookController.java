@@ -12,13 +12,24 @@ import com.springmvc.domain.Book;
 import com.springmvc.service.BookService;
 
 @Controller
+@RequestMapping(value="/books", method = RequestMethod.GET)
 public class BookController {
+	
+	// BookService객체가 servlet-context에서 component-scan으로 스캔 되어야 @Autowired 가능하다.
 	@Autowired
 	private BookService bookService;
 	
-	@RequestMapping(value="/books", method = RequestMethod.GET)
+	@RequestMapping
 	public String requestBookList(Model model) {
 		System.out.println("컨트롤러 BookController-requestBookList() 호출");
+		ArrayList<Book> list = bookService.getAllBookList();
+		model.addAttribute("bookList", list);
+		return "books";
+	}
+	
+	@RequestMapping(value="/all")
+	public String requestAllBook(Model model) {
+		System.out.println("컨트롤러 BookController-requestAllBook() 호출");
 		ArrayList<Book> list = bookService.getAllBookList();
 		model.addAttribute("bookList", list);
 		return "books";

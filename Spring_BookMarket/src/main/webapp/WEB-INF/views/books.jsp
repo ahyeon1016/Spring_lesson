@@ -7,7 +7,7 @@
 	<%
 		System.out.println("books.jsp 도착");
 	%>
-	<link href="./resources/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/Spring_BookMarket/resources/css/bootstrap.min.css" rel="stylesheet">
 	<meta charset="UTF-8">
 	<title>도서 목록</title>
 </head>
@@ -16,6 +16,7 @@
 		<div class="container">
 			<div class="navbar-header">
 				<a class="navbar-brand" href="./home">Home</a>
+				<a class="navbar-brand" href="./books">Books</a>
 			</div>
 		</div>
 	</nav>

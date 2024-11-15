@@ -14,6 +14,7 @@
 		<div class="container">
 			<div class="navbar-header">
 				<a class="navbar-brand" href="./home">Home</a>
+				<a class="navbar-brand" href="./books">Books</a>
 			</div>
 		</div>
 	</nav>
