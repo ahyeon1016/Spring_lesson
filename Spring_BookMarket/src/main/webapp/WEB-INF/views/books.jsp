@@ -17,6 +17,7 @@
 			<div class="navbar-header">
 				<a class="navbar-brand" href="./home">Home</a>
 				<a class="navbar-brand" href="./books">Books</a>
+				<a class="navbar-brand" href="./add">도서 등록</a>	
 			</div>
 		</div>
 	</nav>

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.MatrixVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,8 @@ import com.springmvc.domain.Book;
 import com.springmvc.service.BookService;
 
 @Controller
-@RequestMapping(value="/books", method = RequestMethod.GET)
+
+@RequestMapping(value="/books") //, method = RequestMethod.GET
 public class BookController {
 	
 	// BookService객체가 servlet-context에서 component-scan으로 스캔 되어야 @Autowired 가능하다.
@@ -70,4 +72,23 @@ public class BookController {
 		model.addAttribute("book", bookById);
 		return "book";
 	}
+	
+	@GetMapping("/add")
+	public String requestAddBookForm(@ModelAttribute Book book) {
+		System.out.println("컨트롤러 | requestAddBookForm() 호출 addBook 폼 페이지 이동");
+		return "addBook";
+	}
+	
+	@PostMapping("/add")
+	public String submitAddNewBook(@ModelAttribute Book book, Model model) {
+		System.out.println("컨트롤러 | submitAddNewBook() 호출 addBook 폼 페이지에서 submit클릭함");
+		bookService.setNewBook(book);
+		return "redirect://books";
+	}
+	
+	@ModelAttribute
+	public void addAttribute(Model model) {
+		model.addAttribute("addTitle", "신규 도서 등록");
+	}
 }
+

@@ -45,6 +45,12 @@ public class BookServiceImpl implements BookService {
 		Book bookById = bookRepository.getBookById(bookId);
 		return bookById;
 	}
+
+	@Override
+	public void setNewBook(Book book) {
+		System.out.println("서비스 | setNewBook() 호출 리파지토리로 book을 가지고 이동");
+		bookRepository.setNewBook(book);
+	}
 	
 	
 }

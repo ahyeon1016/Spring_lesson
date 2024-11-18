@@ -113,4 +113,17 @@ public class BookRepositoryImpl implements BookRepository {
 		}
 		return bookInfo;
 	}
+
+		
+	@Override
+	public void setNewBook(Book book) {
+		System.out.println("리파지토리 | setNewBook() 호출 listOfBook에 가지고 온 book 추가");
+		System.out.println("리파지토리 | 삽입 전 listOfBook의 크기"+listOfBooks.size());
+		listOfBooks.add(book);
+		System.out.println("리파지토리 | 삽입 후 listOfBook의 크기"+listOfBooks.size());
+	}
+
+	
+	
+
 }
