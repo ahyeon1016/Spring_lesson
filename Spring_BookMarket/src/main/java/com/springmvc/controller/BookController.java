@@ -8,7 +8,9 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.MatrixVariable;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -88,7 +90,14 @@ public class BookController {
 	
 	@ModelAttribute
 	public void addAttribute(Model model) {
+		System.out.println("컨트롤러 | addAttribute() 호출");
 		model.addAttribute("addTitle", "신규 도서 등록");
+	}
+	
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		System.out.println("컨트롤러 | initBiner()호출 바인딩 허용 항목 지정");
+		binder.setAllowedFields("bookId", "name", "unitPrice", "author", "description", "publisher", "category", "unitsInStock", "releaseDate", "condition", "totalPages");
 	}
 }
 

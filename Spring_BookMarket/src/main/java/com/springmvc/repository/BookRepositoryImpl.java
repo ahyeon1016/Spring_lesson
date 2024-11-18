@@ -121,9 +121,6 @@ public class BookRepositoryImpl implements BookRepository {
 		System.out.println("리파지토리 | 삽입 전 listOfBook의 크기"+listOfBooks.size());
 		listOfBooks.add(book);
 		System.out.println("리파지토리 | 삽입 후 listOfBook의 크기"+listOfBooks.size());
-	}
-
+	}	
 	
-	
-
 }
