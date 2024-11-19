@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
-public class Exam01Controller {
+public class Exam02Controller {
 	
 	//파일 업로드를 위한 폼 페이지 제공
 	@GetMapping("/form")
