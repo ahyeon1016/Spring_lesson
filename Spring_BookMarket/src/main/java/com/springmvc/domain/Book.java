@@ -1,5 +1,7 @@
 package com.springmvc.domain;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Book {
 	private String bookId;
 	private String name;
@@ -11,13 +13,14 @@ public class Book {
 	private long unitsInStock;
 	private String releaseDate;
 	private String condition;
+	private MultipartFile bookImage; //오타 없음
 	
 	public Book() {
 		System.out.println("Book객체 챙성(기본생성자)");
 	}
 	
 	public Book(String bookId, String name, int unitPrice) {
-		System.out.println("Book객체 생성 파라미터(bookId, name, unitPrice)");
+		System.out.println("DTO | Book객체 생성 파라미터(bookId, name, unitPrice)");
 		this.bookId = bookId;
 		this.name = name;
 		this.unitPrice = unitPrice;
@@ -102,6 +105,14 @@ public class Book {
 	public void setCondition(String condition) {
 		this.condition = condition;
 	}
+
+	public MultipartFile getBookImage() {
+		return bookImage;
+	}
+
+	public void setBookImage(MultipartFile bookImage) {
+		this.bookImage = bookImage;
+	} 
 	
 	
 }

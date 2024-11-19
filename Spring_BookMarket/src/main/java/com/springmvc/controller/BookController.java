@@ -1,9 +1,13 @@
 package com.springmvc.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.springmvc.domain.Book;
@@ -82,10 +87,33 @@ public class BookController {
 	}
 	
 	@PostMapping("/add")
-	public String submitAddNewBook(@ModelAttribute Book book, Model model) {
+	public String submitAddNewBook(@ModelAttribute Book book, Model model, HttpServletRequest request) {
 		System.out.println("컨트롤러 | submitAddNewBook() 호출 addBook 폼 페이지에서 submit클릭함");
+		
+		//1. 파일 이름 만들기
+		MultipartFile bookImage = book.getBookImage();
+		
+		String savePath = request.getServletContext().getRealPath("/resources/img");
+		String saveName = bookImage.getOriginalFilename();
+		
+		System.out.println("컨드롤러 | 파일 저장 경로 : "+savePath);
+		System.out.println("컨드롤러 | 폼에서 추가한 파일의 이름 : "+saveName);
+		
+		//2. 빈 파일 생성
+		File file = new File(savePath, saveName);
+		 
+		//3. 생성한 파일에 내용 작성
+		if(bookImage!=null && !bookImage.isEmpty()) {
+			try {
+				bookImage.transferTo(file);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				throw new RuntimeException("도서 이미지 업로드에 실패했습니다.", e);
+			}
+		}
+		
 		bookService.setNewBook(book);
-		return "redirect://books";
+		return "redirect:/books";
 	}
 	
 	@ModelAttribute
@@ -97,7 +125,8 @@ public class BookController {
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		System.out.println("컨트롤러 | initBiner()호출 바인딩 허용 항목 지정");
-		binder.setAllowedFields("bookId", "name", "unitPrice", "author", "description", "publisher", "category", "unitsInStock", "releaseDate", "condition", "totalPages");
+		binder.setAllowedFields("bookId", "name", "unitPrice", "author", "description", "publisher", "category", "unitsInStock", "releaseDate", "condition", "bookImage","totalPages");
 	}
+
 }
 
