@@ -26,6 +26,13 @@
 		</div>
 	</div>
 	<div class="container">
+	
+		<div class="float-right">
+			<form:form action="${pageContext.request.contextPath}/logout" method="post">
+				<input type="submit" class="btn btn-sm btn-success" value="Logout">
+			</form:form>
+		</div>
+	
 		<form:form modelAttribute="book" class="form-horizontal">
 			<fieldset>
 				<legend>${addTitle}</legend>
