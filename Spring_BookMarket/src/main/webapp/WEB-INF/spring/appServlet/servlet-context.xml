@@ -53,4 +53,11 @@
 		<beans:property name="maxUploadSize" value="10000000000000"/>
 	</beans:bean>	
 	
+	<!-- 인터셉터 등록 -->
+	<interceptors>
+		<beans:bean class="com.springmvc.interceptor.MonitoringInterceptor" />
+	</interceptors>
+	
+	
+	
 </beans:beans>
