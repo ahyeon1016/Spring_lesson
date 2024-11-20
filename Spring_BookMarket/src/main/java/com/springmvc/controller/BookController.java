@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.MatrixVariable;
@@ -26,6 +27,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.springmvc.domain.Book;
+import com.springmvc.exception.BookIdException;
+import com.springmvc.exception.CategoryException;
 import com.springmvc.service.BookService;
 
 @Controller
@@ -59,6 +62,11 @@ public class BookController {
 	public String requestBooksByCategory(@PathVariable("category") String bookCategory, Model model) {
 		System.out.println("컨트롤러 | PathVariable = "+bookCategory);
 		ArrayList<Book> booksByCategory = bookService.getBookListByCategory(bookCategory);
+		
+		if(booksByCategory==null||booksByCategory.isEmpty()) {
+			throw new CategoryException();
+		}
+		
 		model.addAttribute("bookList", booksByCategory);
 		return "books";
 	}
@@ -75,7 +83,7 @@ public class BookController {
 	@GetMapping("/book")
 	public String requestBookById(@RequestParam("id") String bookId, Model model) {
 		System.out.println("컨트롤러 | requestBookById()호출 파라미터 bookId의 값 = "+bookId);
-		Book bookById = bookService.getBookById(bookId);
+		Book bookById = bookService.getBookById(bookId);	
 		model.addAttribute("book", bookById);
 		return "book";
 	}
@@ -128,5 +136,15 @@ public class BookController {
 		binder.setAllowedFields("bookId", "name", "unitPrice", "author", "description", "publisher", "category", "unitsInStock", "releaseDate", "condition", "bookImage","totalPages");
 	}
 
+	@ExceptionHandler(value={BookIdException.class})
+	public ModelAndView handleError(HttpServletRequest request, BookIdException exception) {
+		System.out.println("컨트롤러 | handleError()");
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("invalidBookId", exception.getBookId());
+		mav.addObject("exception", exception);
+		mav.addObject("url", request.getRequestURL()+"?"+request.getQueryString());
+		mav.setViewName("errorBook");
+		return mav;
+	}
 }
 
