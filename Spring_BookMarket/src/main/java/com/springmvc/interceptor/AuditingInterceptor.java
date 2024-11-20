@@ -35,7 +35,6 @@ public class AuditingInterceptor extends HandlerInterceptorAdapter {
 		if(request.getRequestURI().endsWith("books/add")) {
 			logger.warn(String.format("신규 등록 도서 ID : %s, 접근자 : %s, 접근 시각 : %s", bookId, user, getCurrentTime()));
 		}
-		
 	}
 	
 	private String getCurrentTime() {
