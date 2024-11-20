@@ -10,9 +10,50 @@
 		</layout>
 	</appender>
 	
+	<!-- 파일에 출력하기 -->
+	<appender name="monitor" class="org.apache.log4j.RollingFileAppender">
+		<!-- true : 덮어 쓰기 하지 않음 -->
+		<param name="append" value="false"/>
+		<!-- 파일의 최대 크기를 지정 -->
+		<param name="maxFileSize" value="10KB"/>
+		<!--  -->
+		<param name="maxBackupIndex" value="5"/>
+		<!-- 로그 파일 경로 -->
+		<param name="file" value="c:/logs/monitor.log"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"/>
+		</layout>
+		<!-- info 레벨만 출력 -->
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="info"/>
+			<param name="LevelMax" value="info"/>
+		</filter>
+	</appender>
+	
+	<appender name="audit" class="org.apache.log4j.RollingFileAppender">
+		<!-- true : 덮어 쓰기 하지 않음 -->
+		<param name="append" value="false"/>
+		<!-- 파일의 최대 크기를 지정 -->
+		<param name="maxFileSize" value="10KB"/>
+		<!--  -->
+		<param name="maxBackupIndex" value="5"/>
+		<!-- 로그 파일 경로 -->
+		<param name="file" value="c:/logs/audit.log"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"/>
+		</layout>
+		<!-- info 레벨만 출력 -->
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="warn"/>
+			<param name="LevelMax" value="warn"/>
+		</filter>
+	</appender>	
+	
 	<!-- Application Loggers -->
 	<logger name="com.springmvc">
 		<level value="info" />
+		<appender-ref ref="monitor"/>
+		<appender-ref ref="audit"/>
 	</logger>
 	
 	<!-- 3rdparty Loggers -->
