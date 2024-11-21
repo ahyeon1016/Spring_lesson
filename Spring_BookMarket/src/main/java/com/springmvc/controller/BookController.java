@@ -8,10 +8,12 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -95,8 +97,12 @@ public class BookController {
 	}
 	
 	@PostMapping("/add")
-	public String submitAddNewBook(@ModelAttribute Book book, Model model, HttpServletRequest request) {
+	public String submitAddNewBook(@Valid @ModelAttribute Book book, BindingResult result, Model model, HttpServletRequest request) {
 		System.out.println("컨트롤러 | submitAddNewBook() 호출 addBook 폼 페이지에서 submit클릭함");
+		
+		if(result.hasErrors()) {
+			return "addBook";
+		}
 		
 		//1. 파일 이름 만들기
 		MultipartFile bookImage = book.getBookImage();

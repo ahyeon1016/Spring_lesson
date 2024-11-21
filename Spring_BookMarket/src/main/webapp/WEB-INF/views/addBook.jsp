@@ -53,6 +53,9 @@
 						<div class="col-sm-3">
 							<form:input path="bookId" class="form-control"/>
 						</div>
+						<div class="col-sm-6">
+							<form:errors path="bookId" class="text-danger"/>
+						</div>
 					</div>
 					<div class="form-group row">
 						<!-- 도서명 -->
@@ -62,6 +65,9 @@
 						<div class="col-sm-3">
 							<form:input path="name" class="form-control"/>
 						</div>
+						<div class="col-sm-6">
+							<form:errors path="name" class="text-danger"/>
+						</div>
 					</div>
 					<div class="form-group row">
 						<!-- 가격 -->
@@ -70,6 +76,9 @@
 						</label>
 						<div class="col-sm-3">
 							<form:input path="unitPrice" class="form-control"/>
+						</div>
+						<div class="col-sm-6">
+							<form:errors path="unitPrice" class="text-danger"/>
 						</div>
 					</div>
 					<div class="form-group row">
