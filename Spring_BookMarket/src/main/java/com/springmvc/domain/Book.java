@@ -8,16 +8,19 @@ import javax.validation.constraints.Size;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.springmvc.validator.BookId;
+
 public class Book {
-	@Pattern(regexp="ISBN[1-9]+")
+	@BookId
+	@Pattern(regexp="ISBN[1-9]+", message="{Pattern.book.bookId}")
 	private String bookId;
 	
-	@Size(min=4, max=50)
+	@Size(min=4, max=50, message="{Size.book.name}")
 	private String name;
 	
-	@Min(value=0)
-	@Digits(integer=8, fraction=2)
-	@NotNull
+	@Min(value=0, message="{Min.book.unitPrice}")
+	@Digits(integer=8, fraction=2, message="{Digits.book.unitPrice}")
+	@NotNull(message="{NotNull.book.unitPrice}")
 	private int unitPrice;
 	
 	private String author;

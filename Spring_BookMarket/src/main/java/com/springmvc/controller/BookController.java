@@ -32,6 +32,8 @@ import com.springmvc.domain.Book;
 import com.springmvc.exception.BookIdException;
 import com.springmvc.exception.CategoryException;
 import com.springmvc.service.BookService;
+import com.springmvc.validator.BookValidator;
+import com.springmvc.validator.UnitsInStockValidator;
 
 @Controller
 
@@ -41,6 +43,13 @@ public class BookController {
 	// BookService객체가 servlet-context에서 component-scan으로 스캔 되어야 @Autowired 가능하다.
 	@Autowired
 	private BookService bookService;
+	
+	// UnitsInStockValidator의 인스턴스 선언
+//	@Autowired
+//	private UnitsInStockValidator unitsInStockValidator;
+
+	@Autowired
+	private BookValidator bookValidator; //BookValidator 인스턴스 선언
 	
 	@GetMapping
 	public String requestBookList(Model model) {
@@ -139,6 +148,8 @@ public class BookController {
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		System.out.println("컨트롤러 | initBiner()호출 바인딩 허용 항목 지정");
+		//binder.setValidator(unitsInStockValidator); //생성한 unitsInStockValidator 설정
+		binder.setValidator(bookValidator); // 생성한 bookValidator 설정
 		binder.setAllowedFields("bookId", "name", "unitPrice", "author", "description", "publisher", "category", "unitsInStock", "releaseDate", "condition", "bookImage","totalPages");
 	}
 
