@@ -34,6 +34,11 @@
 					<input type="submit" class="btn btn-sm btn-success" value="Logout">
 				</form:form>
 			</div>
+			
+			<div class="float-right" style="padding-right:30px">
+				<a href="?language=ko">Korean</a>|<a href="?language=en">English</a>
+			</div>
+			
 			<!-- action="add?${_csrf.parameterName}=${_csrf.token}" -->		
 			<form:form modelAttribute="book" action="add?${_csrf.parameterName}=${_csrf.token}" class="form-horizontal" enctype="multipart/form-data">
 				<fieldset>
