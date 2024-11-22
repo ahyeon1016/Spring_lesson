@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,6 +8,7 @@
 		System.out.println("book.jsp 도착");
 	%>
 	<link href="/Spring_BookMarket/resources/css/bootstrap.min.css" rel="stylesheet">
+	<script src="/Spring_BookMarket/resources/js/controllers.js"></script>
 	<meta charset="UTF-8">
 	<title>도서 상세 정보</title>
 </head>
@@ -39,9 +41,13 @@
 				<p><b>분류 : </b>${book.category}</p>
 				<p><b>재고수 : </b>${book.unitsInStock}</p>
 				<h4>${book.unitPrice}원</h4>
-				<p><a href="#" class="btn btn-primary">도서 주문 &raquo;</a>
-				   <a href="<c:url value="/books"/>" class="btn btn-secondary">도서 목록 &raquo;</a>
-				</p>			
+				<br>
+				<form:form name="addForm" method="put">
+					<p><a href="javascript:addToCart('../cart/add/${book.bookId}')" class="btn btn-primary">도서 주문 &raquo;</a>
+					   <a href="/Spring_BookMarket/cart" class="btn btn-warning">장바구니 &raquo;</a>
+					   <a href="<c:url value="/books"/>" class="btn btn-secondary">도서 목록 &raquo;</a>
+					</p>		
+				</form:form>	
 			</div>
 		</div>
 	</div>
