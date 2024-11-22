@@ -37,6 +37,9 @@ public class CartItem {
 		this.totalPrice = totalPrice;
 	}
 
+	public void updateTotalPrice() {
+		totalPrice = this.book.getUnitPrice() * this.quantity;
+	}
 	
 	@Override
 	public int hashCode() {

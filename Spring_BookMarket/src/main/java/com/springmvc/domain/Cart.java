@@ -19,21 +19,6 @@ public class Cart {
 		this();
 		this.cartId = cartId;
 	}
-	
-	public void addCartItem(CartItem item) {
-		String bookId = item.getBook().getBookId(); //현재 등록하기 위한 도서 ID 가져오기
-		
-		//도서 ID가 cartItems 객체에 등록 되어 있는지 확인
-		if(cartItems.containsKey(bookId)) {
-			CartItem cartItem = cartItems.get(bookId); //등록된 도서ID 가져오기
-			//등록된 도서 ID 개수 저장
-			cartItem.setQuantity(cartItem.getQuantity()+item.getQuantity());
-			cartItems.put(bookId, cartItem);
-		} else {
-			cartItems.put(bookId, item); //도서 ID에 대한 도서 정보 (item) 저장
-		}
-		//updateGrandTotal();
-	}
 
 	public String getCartId() {
 		return cartId;
@@ -59,6 +44,13 @@ public class Cart {
 		this.grandTotal = grandTotal;
 	}
 
+	public void updateGrandTotal() {
+		grandTotal = 0;
+		for(CartItem  item : cartItems.values()) {
+			grandTotal = grandTotal + item.getTotalPrice();
+		}
+	}
+	
 	@Override
 	public int hashCode() {
 		// TODO Auto-generated method stub
@@ -95,4 +87,24 @@ public class Cart {
 		return true;
 	} 
 	
+	public void addCartItem(CartItem item) {
+		String bookId = item.getBook().getBookId(); //현재 등록하기 위한 도서 ID 가져오기
+		
+		//도서 ID가 cartItems 객체에 등록 되어 있는지 확인
+		if(cartItems.containsKey(bookId)) {
+			CartItem cartItem = cartItems.get(bookId); //등록된 도서ID 가져오기
+			//등록된 도서 ID 개수 저장
+			cartItem.setQuantity(cartItem.getQuantity()+item.getQuantity());
+			cartItems.put(bookId, cartItem);
+		} else {
+			cartItems.put(bookId, item); //도서 ID에 대한 도서 정보 (item) 저장
+		}
+		updateGrandTotal();
+	}
+	
+	public void removeCartItem(CartItem item) {
+		String bookId = item.getBook().getBookId();
+		cartItems.remove(bookId); //bookId 도서 삭제
+		updateGrandTotal(); //총액 갱신
+	}
 }
