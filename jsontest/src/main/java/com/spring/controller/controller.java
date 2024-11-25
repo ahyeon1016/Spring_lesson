@@ -1,0 +1,14 @@
+package com.spring.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping("/test")
+public class controller {
+
+	@RequestMapping("/case1")
+	public String index() {
+		return "index";
+	}
+}
