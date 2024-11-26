@@ -30,7 +30,7 @@
 			<form:form name="clearForm" method="delete">
 				<a href="javascript:clearCart()" class="btn btn-danger pull-left">삭제하기</a>
 			</form:form>
-			<a href="#" class="btn btn-success float-right">주문하기</a>
+			<a href="../order?cartId=${cartId}" class="btn btn-success float-right">주문하기</a>
 		</div>
 		<div style="padding-top : 50px">
 			<table class="table table-hover">
@@ -42,7 +42,7 @@
 					<th>비교</th>
 				</tr>
 				<form:form name="removeForm" method="put">
-					<c:forEach items="${cart.cartItem}" var="item">
+					<c:forEach items="${cart.cartItems}" var="item">
 						<tr>
 							<td>${item.value.book.bookId}-${item.value.book.name}</td>
 							<td>${item.value.book.unitPrice}</td>

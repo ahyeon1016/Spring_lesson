@@ -1,11 +1,14 @@
 package com.springmvc.domain;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.springmvc.domain.CartItem;
 
-public class Cart {
+public class Cart implements Serializable {
+
+	private static final long serialVersionUID = -562334243170283907L;
 	private String cartId;
 	private Map<String, CartItem> cartItems;
 	private int grandTotal;
@@ -28,7 +31,7 @@ public class Cart {
 		this.cartId = cartId;
 	}
 
-	public Map<String, CartItem> getCartItem() {
+	public Map<String, CartItem> getCartItems() {
 		return cartItems;
 	}
 

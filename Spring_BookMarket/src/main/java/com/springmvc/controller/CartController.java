@@ -41,14 +41,12 @@ public class CartController {
 	
 	@PostMapping
 	public @ResponseBody Cart create(@RequestBody Cart cart) {
-		System.out.println("1ししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししし");
 
 		return cartService.create(cart);
 	}
 	
 	@GetMapping("/{cartId}")
 	public String requestCartList(@PathVariable(value="cartId") String cartId, Model model) {
-		System.out.println("2ししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししし");
 		Cart cart = cartService.read(cartId);
 		model.addAttribute("cart", cart);
 		return "cart";
@@ -56,7 +54,6 @@ public class CartController {
 	
 	@PutMapping("/{cartId}")
 	public @ResponseBody Cart read(@PathVariable(value="cartId") String cartId) {
-		System.out.println("3ししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししし");
 
 		return cartService.read(cartId);
 	}
@@ -64,7 +61,6 @@ public class CartController {
 	@PutMapping("/add/{bookId}")
 	@ResponseStatus(value=HttpStatus.NO_CONTENT)
 	public void addCartByNewItem(@PathVariable String bookId, HttpServletRequest request) {
-		System.out.println("4ししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししし");
 		//舌郊姥艦 ID昔 室芝ID 亜閃神奄
 		String sessionId= request.getSession(true).getId();
 		Cart cart = cartService.read(sessionId); //舌郊姥艦拭 去系吉 乞窮 舛左 条嬢神奄
@@ -85,7 +81,6 @@ public class CartController {
 	@ResponseStatus(value=HttpStatus.NO_CONTENT)
 	public void removeCartByItem(@PathVariable String bookId, HttpServletRequest request) {
 		//舌郊姥艦 ID昔 室芝ID 亜閃神奄
-		System.out.println("5ししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししししし");
 		System.out.println("bookId" + bookId);
 		String sessionId= request.getSession(true).getId();
 		Cart cart = cartService.read(sessionId); //舌郊姥艦拭 去系吉 乞窮 舛左 条嬢神奄
