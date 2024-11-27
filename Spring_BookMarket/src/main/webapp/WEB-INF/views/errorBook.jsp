@@ -14,6 +14,7 @@
 	<title>도서 상세 정보</title>
 </head>
 <body>
+	<!-- 
 	<nav class="navbar navbar-expand navbar-dark bg-dark">
 		<div class="container">
 			<div class="navbar-header">
@@ -30,7 +31,7 @@
 			</h2>
 		</div>
 	</div>	
-	
+	 -->
 	<div class="container">
 		<p>${url}
 		<p>${exception}

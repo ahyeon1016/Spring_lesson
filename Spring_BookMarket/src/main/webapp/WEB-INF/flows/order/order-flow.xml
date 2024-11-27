@@ -42,7 +42,7 @@
 	
 	<end-state id="endState"/>
 	
-	<end-state id="orderCancelle" view="orderCartWarning.jsp"/>
+	<end-state id="orderCancelled" view="orderCartWarning.jsp"/>
 	
 	<global-transitions>
 		<transition on="cancel" to="endState"/>

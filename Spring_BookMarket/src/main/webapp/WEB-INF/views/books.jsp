@@ -13,6 +13,7 @@
 	<title>도서 목록</title>
 </head>
 <body>
+	<!-- 
 	<nav class="navbar navbar-expand navbar-dark bg-dark">
 		<div class="container">
 			<div class="navbar-header">
@@ -27,7 +28,7 @@
 			<h1 class="display-3">도서 목록</h1>
 		</div>
 	</div>
-	
+	 -->
 	<div class="container">
 		<div class="row" align="center">
 			<%
@@ -55,10 +56,11 @@
 		
 		</div>
 	</div>
-	
+	<!-- 
 	<footer class="container">
 		<hr>
 		<p>&copy; WebMarket</p>
 	</footer>
+	 -->
 </body>
 </html>

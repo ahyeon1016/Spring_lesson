@@ -10,6 +10,7 @@
 	<script src="/Spring_BookMarket/resources/js/controllers.js"></script>
 </head>
 <body>
+	<!-- 
 	<nav class="navbar navbar-expand navbar-dark bg-dark">
 		<div class="container">
 			<div class="navbar-header">
@@ -24,7 +25,7 @@
 			<h1 class="display-3">장바구니</h1>
 		</div>
 	</div>	
-	
+	 -->
 	<div class="container">
 		<div>
 			<form:form name="clearForm" method="delete">
@@ -62,10 +63,12 @@
 			</table>
 			<a href="/Spring_BookMarket/books" class="btn btn-secondary">&laquo; 쇼핑 계속하기</a>
 		</div>
+		<!-- 
 		<hr>
 		<footer class="container">
 			<p>&copy; WebMarket</p>
 		</footer>
+		 -->
 	</div>
 </body>
 </html>
