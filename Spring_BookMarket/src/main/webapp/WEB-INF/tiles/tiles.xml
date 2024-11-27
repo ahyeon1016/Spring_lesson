@@ -60,4 +60,44 @@
 		<put-attribute name="content" value="/WEB-INF/views/cart.jsp"/>
 	</definition>
 	
+	<!-- orderCustomerInfo.jsp -->
+	<definition name="orderCustomerInfo" extends="base-Template">
+		<put-attribute name="title" value="Order"/>
+		<put-attribute name="heading" value="고객정보"/>
+		<put-attribute name="subheading" value="Customer Details"/>
+		<put-attribute name="content" value="/WEB-INF/flows/order/orderCustomerInfo.jsp"/>
+	</definition>
+	
+	<!-- orderShippingInfo.jsp -->
+	<definition name="orderShippingInfo" extends="base-Template">
+		<put-attribute name="title" value="Order"/>
+		<put-attribute name="heading" value="배송정보"/>
+		<put-attribute name="subheading" value="Shipping Details"/>
+		<put-attribute name="content" value="/WEB-INF/flows/order/orderShippingInfo.jsp"/>
+	</definition>
+	
+	<!-- orderConfirmation.jsp -->
+	<definition name="orderConfirmation" extends="base-Template">
+		<put-attribute name="title" value="Order"/>
+		<put-attribute name="heading" value="주문정보"/>
+		<put-attribute name="subheading" value="Order Confirmation"/>
+		<put-attribute name="content" value="/WEB-INF/flows/order/orderConfirmation.jsp"/>
+	</definition>
+	
+	<!-- orderFinished.jsp -->
+	<definition name="orderFinished" extends="base-Template">
+		<put-attribute name="title" value=""/>
+		<put-attribute name="heading" value=""/>
+		<put-attribute name="subheading" value=""/>
+		<put-attribute name="content" value="/WEB-INF/flows/order/orderFinished.jsp"/>
+	</definition>
+	
+	<!-- orderCartWarning.jsp -->
+	<definition name="orderCartWarning" extends="base-Template">
+		<put-attribute name="title" value="Order"/>
+		<put-attribute name="heading" value="주문취소"/>
+		<put-attribute name="subheading" value="Invalid Cart"/>
+		<put-attribute name="content" value="/WEB-INF/flows/order/orderCartWarning.jsp"/>
+	</definition>
+	
 </tiles-definitions>

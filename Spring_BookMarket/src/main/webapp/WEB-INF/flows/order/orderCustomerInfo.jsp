@@ -8,7 +8,7 @@
 	<link href="/Spring_BookMarket/resources/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-
+	<!-- 
 	<nav class="navbar navbar-expand navbar-dark bg-dark">
 		<div class="container">
 			<div class="navbar-header">
@@ -21,7 +21,7 @@
 			<h1 class="display-3">고객정보</h1>
 		</div>
 	</div>	
-	
+	 -->
 	<div class="container">
 		<form:form modelAttribute="order.customer" class="form-horizontal">
 			<fieldset>

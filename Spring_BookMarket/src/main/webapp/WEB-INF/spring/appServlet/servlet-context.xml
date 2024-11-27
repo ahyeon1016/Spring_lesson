@@ -87,7 +87,8 @@
    </beans:bean>
    
    <!-- Web Flow -->
-   <webflow:flow-registry id="flowRegistry">
+   <webflow:flow-registry id="flowRegistry" 
+   						  flow-builder-services="flowBuilderServices">
       <webflow:flow-location path="/WEB-INF/flows/order/order-flow.xml" id="order"/> <!-- cart.jsp의 요청과 연결되는 핸들러? 이걸 통해서 oder-flow.xml의 action과 연결됨. 맞나? -->
    </webflow:flow-registry>
    
@@ -113,4 +114,10 @@
       <beans:property name="definitions" value="/WEB-INF/tiles/tiles.xml"/>
    </beans:bean>
    
+   <webflow:flow-builder-services id="flowBuilderServices" view-factory-creator="viewFactoryCreator"/>
+   
+   <beans:bean id="viewFactoryCreator"
+   			   class="org.springframework.webflow.mvc.builder.MvcViewFactoryCreator">
+	  <beans:property name="viewResolvers" ref="tilesViewResolver"/>   
+   </beans:bean>
 </beans:beans>

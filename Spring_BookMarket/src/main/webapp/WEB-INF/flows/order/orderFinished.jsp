@@ -10,7 +10,7 @@
 	<link href="/Spring_BookMarket/resources/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-
+	<!--  
 	<nav class="navbar navbar-expand navbar-dark bg-dark">
 		<div class="container">
 			<div class="navbar-header">
@@ -23,6 +23,8 @@
 			<h1 class="display-3">주문완료</h1>
 		</div>
 	</div>
+	-->
+	
 	<div class="container">
 		<h2>주문해주셔서 감사합니다.</h2>
 		<p>

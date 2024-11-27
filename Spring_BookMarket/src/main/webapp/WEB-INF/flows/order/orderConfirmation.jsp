@@ -10,7 +10,7 @@
 	<link href="/Spring_BookMarket/resources/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-
+	<!--  
 	<nav class="navbar navbar-expand navbar-dark bg-dark">
 		<div class="container">
 			<div class="navbar-header">
@@ -23,7 +23,7 @@
 			<h1 class="display-3">주문정보</h1>
 		</div>
 	</div>	
-	
+	-->
 	<div class="container">
 		<form:form modelAttribute="order" class="form-horizontal">
 			<div class="well col-md-9 col-md-offset-2" style="background:#fafafe; padding: 20px">
