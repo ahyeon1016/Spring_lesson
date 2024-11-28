@@ -6,6 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.springmvc.domain.Book;
@@ -13,6 +17,15 @@ import com.springmvc.exception.BookIdException;
 
 @Repository
 public class BookRepositoryImpl implements BookRepository {
+	
+	private JdbcTemplate template;
+	
+	@Autowired
+	public void setJdbctemplate(DataSource dataSource) {
+		System.out.println("데이터 소스 전달 완료");
+		this.template = new JdbcTemplate(dataSource);
+	}
+	
 	private ArrayList<Book> listOfBooks = new ArrayList<Book>();
 	
 	public BookRepositoryImpl() {		
@@ -49,6 +62,8 @@ public class BookRepositoryImpl implements BookRepository {
 	@Override
 	public ArrayList<Book> getAllBookList() {
 		System.out.println("리파지토리 | getAllBookList()호출 listOfBooks리턴");
+		String SQL = "SELECT * FROM book";
+		listOfBooks = (ArrayList<Book>)template.query(SQL, new BookRowMapper()); 
 		return listOfBooks;
 	}
 
@@ -56,6 +71,8 @@ public class BookRepositoryImpl implements BookRepository {
 	public ArrayList<Book> getBookListByCategory(String category) {
 		System.out.println("리파지토리 | getBookListByCategory()호출 파라미터로 넘겨 받은 category의 값을 book의 category와 대소문자를 구분하지 않고 비교하여 일치하는 카테고리를 booksByCategory에 담아 리턴");
 		ArrayList<Book> booksByCategory = new ArrayList<Book>();
+		String SQL = "SELECT * FROM book WHERE b_category LIKE '%"+category+"%'";
+		booksByCategory = (ArrayList<Book>) template.query(SQL, new BookRowMapper());
 		for(int i=0; i<listOfBooks.size(); i++) {
 			Book book = listOfBooks.get(i);
 			if(category.equalsIgnoreCase(book.getCategory())) {
@@ -70,27 +87,43 @@ public class BookRepositoryImpl implements BookRepository {
 		System.out.println("리파지토리 | getBookListByFilter() 호출");
 		Set<Book> booksByPublisher = new HashSet<Book>();
 		Set<Book> booksByCategory = new HashSet<Book>();
-		
+		Set<String> criterias = filter.keySet();
 		Set<String> booksByFilter = filter.keySet();
 
-		if(booksByFilter.contains("publisher")) {
+//		if(booksByFilter.contains("publisher")) {
+//			for(int i=0; i<filter.get("publisher").size(); i++) {
+//				String publisherName = filter.get("publisher").get(i);
+//				for(int j=0; j<listOfBooks.size(); j++) {
+//					Book book = listOfBooks.get(j);					
+//					if(publisherName.equalsIgnoreCase(book.getPublisher())) {
+//						booksByPublisher.add(book);
+//					}
+//				}
+//			}
+//		}
+//		
+//		if(booksByFilter.contains("category")) {
+//			for(int i=0; i<filter.get("category").size(); i++) {
+//				String category = filter.get("category").get(i);				
+//				List<Book> list = getBookListByCategory(category);
+//				
+//				booksByCategory.addAll(list);
+//			}
+//		}
+		
+		if(criterias.contains("publisher")) {
 			for(int i=0; i<filter.get("publisher").size(); i++) {
 				String publisherName = filter.get("publisher").get(i);
-				for(int j=0; j<listOfBooks.size(); j++) {
-					Book book = listOfBooks.get(j);					
-					if(publisherName.equalsIgnoreCase(book.getPublisher())) {
-						booksByPublisher.add(book);
-					}
-				}
+				String SQL = "SELECT * FROM book WHERE b_publisher LIKE '%"+publisherName+"%'";
+				booksByPublisher.addAll(template.query(SQL, new BookRowMapper()));
 			}
 		}
 		
-		if(booksByFilter.contains("category")) {
+		if(criterias.contains("category")){
 			for(int i=0; i<filter.get("category").size(); i++) {
 				String category = filter.get("category").get(i);				
-				List<Book> list = getBookListByCategory(category);
-				
-				booksByCategory.addAll(list);
+				String SQL = "SELECT * FROM book WHERE b_category LIKE '%"+category+"%'";
+				booksByCategory.addAll(template.query(SQL, new BookRowMapper()));
 			}
 		}
 		
@@ -102,12 +135,18 @@ public class BookRepositoryImpl implements BookRepository {
 	public Book getBookById(String bookId) {
 		System.out.println("리파지토리 | getBookById()함수 호출 bookId와 일치하는 Book 리턴");
 		Book bookInfo = null;
-		for(int i=0; i<listOfBooks.size();i++) {
-			Book book = listOfBooks.get(i);
-			if(book != null && book.getBookId() != null && book.getBookId().equals(bookId)) {
-				bookInfo = book;
-				break;
-			}
+//		for(int i=0; i<listOfBooks.size();i++) {
+//			Book book = listOfBooks.get(i);
+//			if(book != null && book.getBookId() != null && book.getBookId().equals(bookId)) {
+//				bookInfo = book;
+//				break;
+//			}
+//		}
+		String SQL = "SELECT count(*) FROM book WHERE b_bookId=?";
+		int rowCount = template.queryForObject(SQL, Integer.class, bookId);
+		if(rowCount != 0) {
+			SQL = "SELECT * FROM book WHERE b_bookId=?";
+			bookInfo = template.queryForObject(SQL, new Object[] {bookId}, new BookRowMapper());
 		}
 		if(bookInfo == null) {
 			System.out.println("리파지토리 | bookInfo == null");
@@ -116,14 +155,48 @@ public class BookRepositoryImpl implements BookRepository {
 		}
 		return bookInfo;
 	}
-
-		
+	
 	@Override
 	public void setNewBook(Book book) {
 		System.out.println("리파지토리 | setNewBook() 호출 listOfBook에 가지고 온 book 추가");
-		System.out.println("리파지토리 | 삽입 전 listOfBook의 크기"+listOfBooks.size());
-		listOfBooks.add(book);
-		System.out.println("리파지토리 | 삽입 후 listOfBook의 크기"+listOfBooks.size());
+		String SQL = "INSERT INTO book VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		template.update(SQL, book.getBookId(), book.getName(), book.getUnitPrice(), book.getAuthor(), book.getDescription(), book.getPublisher(), book.getCategory(), book.getUnitsInStock(), book.getReleaseDate(), book.getCondition(), book.getFileName());
+//		System.out.println("리파지토리 | 삽입 전 listOfBook의 크기"+listOfBooks.size());
+//		listOfBooks.add(book);
+//		System.out.println("리파지토리 | 삽입 후 listOfBook의 크기"+listOfBooks.size());
+	}
+	
+	@Override
+	public void setUpdateBook(Book book) {
+		if(book.getFileName()!=null) {
+			String SQL = "UPDATE book SET b_name=?, b_unitPrice=?, b_author=?, "
+					+ "b_description=?, b_publisher=?, b_category=?, "
+					+ "b_unitsInStock=?, b_releaseDate=?, b_condition=?, "
+					+ "b_fileName=? WHERE b_bookId=?";
+			template.update(SQL, book.getName(), book.getUnitPrice(), book.getAuthor(), 
+					book.getDescription(), book.getPublisher(), 
+					book.getCategory(), book.getUnitsInStock(),
+					book.getReleaseDate(), book.getCondition(), 
+					book.getFileName(), book.getBookId());
+		} else if(book.getFileName()==null) {
+			String SQL = "UPDATE book SET b_name=?, b_unitPrice=?, b_author=?, "
+					+ "b_description=?, b_publisher=?, b_category=?, "
+					+ "b_unitsInStock=?, b_releaseDate=?, b_condition=? "
+					+ "WHERE b_bookId=?";
+			template.update(SQL, book.getName(), book.getUnitPrice(), book.getAuthor(), 
+					book.getDescription(), book.getPublisher(), 
+					book.getCategory(), book.getUnitsInStock(),
+					book.getReleaseDate(), book.getCondition(), 
+					book.getBookId());
+		}
+	}
+
+	
+	@Override
+	public void setDeleteBook(String bookID) {
+		String SQL = "DELETE FROM book WHERE b_bookId=?";
+		template.update(SQL, bookID);
 	}	
+
 	
 }

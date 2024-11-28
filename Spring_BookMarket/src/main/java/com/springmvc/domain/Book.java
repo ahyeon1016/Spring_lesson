@@ -35,7 +35,16 @@ public class Book implements Serializable{
 	private String releaseDate;
 	private String condition;
 	private MultipartFile bookImage; //오타 없음
+	private String fileName;
 	
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
 	public Book() {
 		System.out.println("Book객체 챙성(기본생성자)");
 	}

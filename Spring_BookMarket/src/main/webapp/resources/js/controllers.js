@@ -21,3 +21,11 @@ function clearCart(){
 	   window.location.reload();
 	}, 100)
 }
+
+function deleteConfirm(id){
+	if(confirm("삭제합니다!") == true){
+		location.href = "./delete?id="+id;
+	}else{
+		return;
+	}
+}

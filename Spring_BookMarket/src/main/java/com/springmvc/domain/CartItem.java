@@ -31,18 +31,17 @@ public class CartItem implements Serializable{
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+		this.updateTotalPrice();
 	}
 
 	public int getTotalPrice() {
 		return totalPrice;
 	}
 
-	public void setTotalPrice(int totalPrice) {
-		this.totalPrice = totalPrice;
-	}
-
 	public void updateTotalPrice() {
-		totalPrice = this.book.getUnitPrice() * this.quantity;
+		System.out.println(this.quantity);
+		System.out.println(this.book.getUnitPrice());
+		totalPrice = this.book.getUnitPrice()*this.quantity;
 	}
 	
 	@Override

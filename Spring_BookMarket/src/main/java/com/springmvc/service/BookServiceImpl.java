@@ -51,6 +51,16 @@ public class BookServiceImpl implements BookService {
 		System.out.println("서비스 | setNewBook() 호출 리파지토리로 book을 가지고 이동");
 		bookRepository.setNewBook(book);
 	}
+
+	@Override
+	public void setUpdateBook(Book book) {
+		bookRepository.setUpdateBook(book);
+	}
+
+	@Override
+	public void setDeleteBook(String bookID) {
+		bookRepository.setDeleteBook(bookID);
+	}
 	
 	
 }

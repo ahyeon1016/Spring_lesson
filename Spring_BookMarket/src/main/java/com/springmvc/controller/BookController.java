@@ -129,6 +129,7 @@ public class BookController {
 		if(bookImage!=null && !bookImage.isEmpty()) {
 			try {
 				bookImage.transferTo(file);
+				book.setFileName(saveName);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				throw new RuntimeException("도서 이미지 업로드에 실패했습니다.", e);
@@ -162,6 +163,41 @@ public class BookController {
 		mav.addObject("url", request.getRequestURL()+"?"+request.getQueryString());
 		mav.setViewName("errorBook");
 		return mav;
+	}
+	
+	@GetMapping("/update")
+	public String getUpdateBookForm(@ModelAttribute("updateBook") Book book,
+			@RequestParam("id") String bookId, Model model) {
+		Book bookById = bookService.getBookById(bookId);
+		model.addAttribute("book", bookById);
+		return "updateForm";
+	}
+	
+	@PostMapping("/update")
+	public String submitUpdateBookForm(@ModelAttribute("updateBook") Book book, HttpServletRequest request) {
+		MultipartFile bookImage = book.getBookImage();
+		String savePath = request.getServletContext().getRealPath("/resources/img");
+		String saveName = bookImage.getOriginalFilename();
+		
+		File file = new File(savePath, saveName);
+		
+		if(bookImage!=null && !bookImage.isEmpty()) {
+			try {
+				bookImage.transferTo(file);
+				book.setFileName(saveName);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				throw new RuntimeException("도서 이미지 업로드에 실패했습니다.", e);
+			}
+		}
+		bookService.setUpdateBook(book);
+		return "redirect:/books";
+	}
+	
+	@RequestMapping(value="/delete")
+	public String getDeleteBookForm(Model model, @RequestParam("id") String bookId) {
+		bookService.setDeleteBook(bookId);
+		return "redirect:/books";
 	}
 }
 

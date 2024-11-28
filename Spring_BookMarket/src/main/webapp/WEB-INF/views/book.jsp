@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,6 +33,19 @@
 	 -->
 	
 	<div class="container">
+		<div class="col-md-4">
+	        <c:choose>
+	           <c:when test="${book.getBookImage()==null}">
+	              <!-- <img src="<c:url value="/resources/images/${book.getBookId()}.png" />" style="width:60%" /> -->
+	              <img src="/Spring_BookMarket/resources/img/${book.fileName}" style="width: 100%" />
+	           </c:when>            
+	            
+	           <c:otherwise>
+	              <!-- <img src="<c:url value="/resources/images/${book.getBookImage().getOriginalFilename()}" />" style="width:60%" /> -->
+	              <img src="/Spring_BookMarket/resources/img/${book.fileName}" style="width: 100%" />            
+	           </c:otherwise>
+	        </c:choose>
+        </div>
 		<div class="row">
 			<div class="col-md-12">
 				<h3>${book.name}</h3>
@@ -48,6 +63,10 @@
 					<p><a href="javascript:addToCart('../cart/add/${book.bookId}')" class="btn btn-primary">도서 주문 &raquo;</a>
 					   <a href="/Spring_BookMarket/cart" class="btn btn-warning">장바구니 &raquo;</a>
 					   <a href="<c:url value="/books"/>" class="btn btn-secondary">도서 목록 &raquo;</a>
+					   <sec:authorize access="isAuthenticated()">
+					      <a href="/Spring_BookMarket/books/update?id=${book.bookId}" class="btn btn-success">수정&raquo;</a>
+					      <a href="javascript:deleteConfirm('${book.bookId}')" class="btn btn-danger">삭제&raquo;</a>
+					   </sec:authorize>
 					</p>		
 				</form:form>	
 			</div>
